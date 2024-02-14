@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -45,9 +45,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($request->id);
         $user->update([
-           'name'=> $request->name,
-           'email' => $request->email,
-           'password' => $request->password
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password
         ]);
 
         return view('users.index')->with('status', 'User updated successfully!');

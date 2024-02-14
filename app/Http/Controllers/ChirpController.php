@@ -20,7 +20,7 @@ class ChirpController extends Controller
 
         //Esta es la forma mas practica de hacerlo si lo queremos ordenar, BASADO EN EL 'CREATED_AT'
         $chirps = Chirp::with('users')->latest()->get();
-         $data = $chirps->isEmpty();
+        $data = $chirps->isEmpty();
 
 
         return view('chirps.index', compact('chirps', 'data'));
@@ -46,7 +46,7 @@ class ChirpController extends Controller
         //Vamos a crear un nuevo chirp
         // auth()->user() accedo al usuario autenticado y luego a su relacion con la tabla chirps
         auth()->user()->chirps()->create($validated);
-        return to_route('chirps.index')->with('status',  __('Chirps created successfully!'));
+        return to_route('chirps.index')->with('status', __('Chirps created successfully!'));
     }
 
     /**

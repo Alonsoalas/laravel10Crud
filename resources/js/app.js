@@ -9,6 +9,6 @@ import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
 
-initTE({ Dropdown, Ripple });
+initTE({Dropdown, Ripple});
 
 Alpine.start();
