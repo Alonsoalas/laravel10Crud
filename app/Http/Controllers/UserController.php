@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
@@ -25,32 +26,33 @@ class UserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        User::create($user);
+//        User::create($user);
         return view('users.index')->with('status', 'User created successfully!');
 
     }
 
     public function edit(User $user)
     {
+//        return $user;
         return view('users.edit', compact('user'));
     }
 
     public function update(Request $request)
     {
-        $user = User::findOrFail($request->id);
+        $user = User::find($request->id);
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password
         ]);
 
-        return view('users.index')->with('status', 'User updated successfully!');
+        return to_route('users.index')->with('status', __('User updated successfully!'));
 
     }
 

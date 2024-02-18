@@ -4,7 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Chirp;
 use App\Http\Controllers\ChirpController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,14 +37,19 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/chirps', [ChirpController::class, 'store'])->name('chirps.store');
     Route::get('/chirps/{chirp}/edit', [ChirpController::class, 'edit'])->name('chirps.edit');
+    Route::get('/chirps/{chirp}/show', [ChirpController::class, 'show'])->name('chirps.show');
     Route::put('/chirps/{id}', [ChirpController::class, 'update'])->name('chirps.update');
     Route::delete('/chirps/{id}', [ChirpController::class, 'destroy'])->name('chirps.delete');
 
-    Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
-    Route::get('/users/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}/update', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('user.delete');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('user.delete');
+
+    Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::put('/comments', [CommentController::class, 'store'])->name('comments.store');
 });
 
 require __DIR__ . '/auth.php';

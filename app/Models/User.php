@@ -48,4 +48,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chirp::class);
     }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

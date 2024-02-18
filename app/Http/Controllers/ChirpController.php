@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chirp;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,7 @@ class ChirpController extends Controller
         $validated = $request->validate([
             'message' => ['required', 'min:5', 'max:255']
         ]);
+
         //Vamos a crear un nuevo chirp
         // auth()->user() accedo al usuario autenticado y luego a su relacion con la tabla chirps
         auth()->user()->chirps()->create($validated);
@@ -54,7 +56,15 @@ class ChirpController extends Controller
      */
     public function show(Chirp $chirp)
     {
-        //
+        //Detalles de cada chirp
+        $user_comment = auth()->user()->id;
+
+//        paginado los comentarios
+//        $c_paginate = DB::table('comments')->where([
+//            ['chirp_id', '=', $chirp->id]
+//        ])->paginate(3);
+
+        return view('chirps.show', compact('chirp', 'user_comment'));
     }
 
     /**
@@ -80,7 +90,7 @@ class ChirpController extends Controller
             'user_id' => $request->user_id
         ]);
 
-        return to_route('chirps.index')->with(session()->flash('status', __('Chirps updated successfully!')));
+        return to_route('chirps.index')->with('status', __('Chirps updated successfully!'));
     }
 
     /**
@@ -91,6 +101,6 @@ class ChirpController extends Controller
         //elimar un chirp
         $chirp = Chirp::findOrFail($id);
         $chirp->delete();
-        return to_route('chirps.index')->with(session()->flash('status', __('Chirps deleted successfully!')));
+        return to_route('chirps.index')->with('status', __('Chirps deleted successfully!'));
     }
 }
